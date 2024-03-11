@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 
 import Error from './shared/Error'
 import Table from './companies/Table'
 import Pagination from './shared/Pagination'
+import FilterForm from './companies/FilterForm'
 
 import { useDebouncedEffect } from '../utils/hooks'
 
-export default () => {
+const Home = () => {
   // List of fetched companies
   const [companies, setCompanies] = useState([])
 
@@ -69,51 +70,18 @@ export default () => {
       <div className="jumbotron jumbotron-fluid bg-transparent">
         <div className="container secondary-color">
           <h1 className="display-4">Companies</h1>
-
-          <label htmlFor="company-name">Company Name</label>
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="company-name"
-              value={companyName}
-              onChange={(e) => setCompanyName(e.target.value)}
-            />
-          </div>
-
-          <label htmlFor="industry">Industry</label>
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="industry"
-              value={industry}
-              onChange={(e) => setIndustry(e.target.value)}
-            />
-          </div>
-
-          <label htmlFor="min-employee">Minimum Employee Count</label>
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="min-employee"
-              value={minEmployee}
-              onChange={(e) => setMinEmployee(e.target.value)}
-            />
-          </div>
-
-          <label htmlFor="min-amount">Minimum Deal Amount</label>
-          <div className="input-group mb-3">
-            <input
-              type="text"
-              className="form-control"
-              id="min-amount"
-              value={minimumDealAmount}
-              onChange={(e) => setMinimumDealAmount(e.target.value)}
-            />
-          </div>
-
+          <FilterForm
+            {...{
+              companyName,
+              setCompanyName,
+              industry,
+              setIndustry,
+              minEmployee,
+              setMinEmployee,
+              minimumDealAmount,
+              setMinimumDealAmount,
+            }}
+          />
           <Table companies={companies} />
 
           {error && <Error message={error} />}
@@ -124,3 +92,5 @@ export default () => {
     </div>
   )
 }
+
+export default Home
