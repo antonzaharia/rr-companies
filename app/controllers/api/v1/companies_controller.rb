@@ -1,6 +1,6 @@
 class Api::V1::CompaniesController < ApplicationController
   def index
-    companies = Company.filtered_companies(permitted_params)
+    companies = Company.filtered_and_paginated(permitted_params)
 
     render json: {
       companies: ActiveModelSerializers::SerializableResource.new(companies, each_serializer: CompanySerializer).as_json,
