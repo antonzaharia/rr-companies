@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 
 import Error from './shared/Error'
 import Table from './companies/Table'
@@ -53,17 +53,22 @@ const Home = () => {
         setCompanies(data.companies)
         setTotalPages(data.meta.pages)
         setCurrentPage(data.meta.page)
-        setIsInitialMount(false)
       })
       .catch((error) => setError(`Fetch error: ${error}`))
   }
 
   // Custom hook to debounce feting the companies
-  useDebouncedEffect(
-    () => fetchCompanies(),
-    [companyName, industry, minEmployee, minimumDealAmount],
-    isInitialMount ? 0 : 500
-  )
+  useDebouncedEffect(() => {
+    if (!isInitialMount) {
+      fetchCompanies()
+    }
+  }, [companyName, industry, minEmployee, minimumDealAmount], 500)
+
+  // First Page load
+  useEffect(() => {
+    fetchCompanies()
+    setIsInitialMount(false)
+  }, [])
 
   return (
     <div className="vw-100 primary-color d-flex align-items-center justify-content-center">
