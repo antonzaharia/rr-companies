@@ -17,8 +17,8 @@ Your primary task with this homework assignment is to resolve the user stories b
   - [ ] Added error handling for API responses, displaying user-friendly messages and preventing the application from crashing on non-successful response codes.
 - [ ] The backend is taking too long to return the expected data, i.e.  filters aren't being applied, too much data is being returned, db performance isn't optimized, etc.
   - [ ] Pagination: To reduce load times by limiting the amount of data sent in a single request.
-  - [ ] Filterer Concern: To cleanly apply filters, improving query efficiency and code maintainability.
-  - [ ] Serializers: To only send necessary data, reducing bandwidth and speeding up responses.
+  - [x] Filterer Concern: To cleanly apply filters, improving query efficiency and code maintainability.
+  - [x] Serializers: To only send necessary data, reducing bandwidth and speeding up responses.
   - [ ] Database Optimization: To enhance query speed and overall application performance.
 - [ ] The confidence in our current functionality and ability to deploy additional changes is extremely low.  Help us increase our confidence in an automated way.
   - [ ] Unit Tests: Cover individual components or methods, ensuring they work as expected in isolation.
