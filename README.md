@@ -12,9 +12,22 @@ Your primary task with this homework assignment is to resolve the user stories b
 
 ## User Stories
 - [ ] The frontend is not properly fetching data, i.e. filters aren't being sent, requests are being sent too often, non-successful response codes aren't being handled, etc.
+  - [ ] Ensured filters are sent with requests
+  - [ ] Debouncer: Control the frequency of API requests, ensuring that they're made only after a user has paused their input, reducing unnecessary server load.
+  - [ ] Added error handling for API responses, displaying user-friendly messages and preventing the application from crashing on non-successful response codes.
 - [ ] The backend is taking too long to return the expected data, i.e.  filters aren't being applied, too much data is being returned, db performance isn't optimized, etc.
+  - [ ] Pagination: To reduce load times by limiting the amount of data sent in a single request.
+  - [ ] Filterer Concern: To cleanly apply filters, improving query efficiency and code maintainability.
+  - [ ] Serializers: To only send necessary data, reducing bandwidth and speeding up responses.
+  - [ ] Database Optimization: To enhance query speed and overall application performance.
 - [ ] The confidence in our current functionality and ability to deploy additional changes is extremely low.  Help us increase our confidence in an automated way.
+  - [ ] Unit Tests: Cover individual components or methods, ensuring they work as expected in isolation.
+  - [ ] Controller Tests: Verify that the application's HTTP endpoints respond as intended, covering various scenarios including success, failure, and edge cases.
+  - [ ] System Tests: Implement systems tests to ensure different parts of the application work together as expected.
 - [ ] The confidence in our security posture is also very low.  Help us increase our confidence that we are running a securely designed application.
+  - [ ] Strong Parameters: Use strong parameters to prevent mass-assignment vulnerabilities and ensure we explicitly permit only the required parameters for each action.
+  - [ ] Input Validation: Ensure all inputs from users are validated both in terms of type and content to prevent SQL injection and other forms of injection attacks.
+  - [ ] Update Dependencies: Use `bundler-audit` to check for vulnerabilities.
 
 ## Assumptions
 
