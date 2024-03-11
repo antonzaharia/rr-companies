@@ -6,7 +6,7 @@ class Api::V1::CompaniesControllerTest < ActionDispatch::IntegrationTest
     @company2 = companies(:two)
 
     @original_per_page = Company.per_page
-    Company.per_page = 2 # Set custom per_age attribute
+    Company.per_page = 1 # Set custom per_age attribute
   end
 
   teardown do
@@ -58,12 +58,13 @@ class Api::V1::CompaniesControllerTest < ActionDispatch::IntegrationTest
       company_with_deal1 = deal1.company
       company_with_deal2 = deal2.company
 
-      get api_v1_companies_url, params: { minimumDealAmount: deal1.amount + 1 }
+      # Ensuring the company with deal 2 si not included in the results
+      get api_v1_companies_url, params: { minimumDealAmount: company_with_deal2.total_deals_amount + 1 }
       assert_response :success
 
       json_response = JSON.parse(response.body)
       assert_equal 1, json_response['companies'].length
-      assert_equal company_with_deal2.id, json_response['companies'].first['id']
+      assert_equal company_with_deal1.id, json_response['companies'].first['id']
     end
   end
 

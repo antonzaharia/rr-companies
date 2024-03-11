@@ -10,3 +10,9 @@ two:
   status: pending
   amount: 200
   company: two
+
+three:
+  name: Deal 3
+  status: pending
+  amount: 300
+  company: one

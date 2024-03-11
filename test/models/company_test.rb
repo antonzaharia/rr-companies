@@ -21,4 +21,14 @@ class CompanyTest < ActiveSupport::TestCase
     first_page_companies = Company.paginate(page: 1)
     assert_equal 3, first_page_companies.size, 'First page should have 3 companies'
   end
+
+  test "#with_minimum_deal_amount scope does not include companies with lower deal amount" do
+    companies = Company.with_minimum_deal_amount(@company.total_deals_amount + 1)
+
+    refute_includes companies, companies(:one)
+  end
+
+  test '#total_deals_amount should calculate the total deal amount' do
+    assert_equal 400, @company.total_deals_amount
+  end
 end
