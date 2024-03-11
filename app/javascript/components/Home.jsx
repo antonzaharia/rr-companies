@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Table from './companies/Table'
 
 export default () => {
   // List of fetched companies
@@ -17,7 +18,7 @@ export default () => {
       .then((res) => {
         return res.json();
       })
-      .then((res) => setCompanies(res))
+      .then((res) => setCompanies(res.companies))
   }, [])
 
   return (
@@ -28,44 +29,49 @@ export default () => {
 
           <label htmlFor="company-name">Company Name</label>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" id="company-name" value={companyName} onChange={e => setCompanyName(e.target.value)} />
+            <input
+              type="text"
+              className="form-control"
+              id="company-name"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+            />
           </div>
 
           <label htmlFor="industry">Industry</label>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" id="industry" value={industry} onChange={e => setIndustry(e.target.value)} />
+            <input
+              type="text"
+              className="form-control"
+              id="industry"
+              value={industry}
+              onChange={(e) => setIndustry(e.target.value)}
+            />
           </div>
 
           <label htmlFor="min-employee">Minimum Employee Count</label>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" id="min-employee" value={minEmployee} onChange={e => setMinEmployee(e.target.value)} />
+            <input
+              type="text"
+              className="form-control"
+              id="min-employee"
+              value={minEmployee}
+              onChange={(e) => setMinEmployee(e.target.value)}
+            />
           </div>
 
           <label htmlFor="min-amount">Minimum Deal Amount</label>
           <div className="input-group mb-3">
-            <input type="text" className="form-control" id="min-amount" value={minimumDealAmount} onChange={e => setMinimumDealAmount(e.target.value)} />
+            <input
+              type="text"
+              className="form-control"
+              id="min-amount"
+              value={minimumDealAmount}
+              onChange={(e) => setMinimumDealAmount(e.target.value)}
+            />
           </div>
 
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Industry</th>
-                <th scope="col">Employee Count</th>
-                <th scope="col">Total Deal Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {companies.map((company) => (
-                <tr key={company.id}>
-                  <td>{company.name}</td>
-                  <td>{company.industry}</td>
-                  <td>{company.employee_count}</td>
-                  <td>{company.deals.reduce((sum, deal) => sum + deal.amount, 0)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Table companies={companies} />
         </div>
       </div>
     </div>
