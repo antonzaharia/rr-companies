@@ -1,0 +1,20 @@
+
+one:
+  name: <%= Faker::Company.name %>
+  industry: <%= Faker::Company.industry %>
+  employee_count: <%= rand(10..1000) %>
+
+two:
+  name: <%= Faker::Company.name %>
+  industry: <%= Faker::Company.industry %>
+  employee_count: <%= rand(10..1000) %>
+
+three:
+  name: <%= Faker::Company.name %>
+  industry: <%= Faker::Company.industry %>
+  employee_count: <%= rand(10..1000) %>
+
+four:
+  name: <%= Faker::Company.name %>
+  industry: <%= Faker::Company.industry %>
+  employee_count: <%= rand(10..1000) %>

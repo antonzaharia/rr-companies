@@ -1,0 +1,12 @@
+
+one:
+  name: Deal 1
+  status: pending
+  amount: 100
+  company: one
+
+two:
+  name: Deal 2
+  status: pending
+  amount: 200
+  company: two
