@@ -54,6 +54,9 @@ gem "bootsnap", require: false
 # Serialization
 gem "active_model_serializers", "~> 0.10.14"
 
+# Pagination
+gem "will_paginate", "~> 4.0"
+
 group :test do
   gem "minitest", "~> 5.22"
   gem "capybara", "~> 3.40"

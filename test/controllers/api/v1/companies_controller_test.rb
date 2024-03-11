@@ -4,6 +4,13 @@ class Api::V1::CompaniesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @company1 = companies(:one)
     @company2 = companies(:two)
+
+    @original_per_page = Company.per_page
+    Company.per_page = 2 # Set custom per_age attribute
+  end
+
+  teardown do
+    Company.per_page = @original_per_page # Reset to original value
   end
 
   test "should get index" do
@@ -12,6 +19,7 @@ class Api::V1::CompaniesControllerTest < ActionDispatch::IntegrationTest
 
     json_response = JSON.parse(response.body)
     assert_not_nil json_response['companies']
+    assert_not_nil json_response['meta']
   end
 
   class FilterTests < Api::V1::CompaniesControllerTest
@@ -57,6 +65,15 @@ class Api::V1::CompaniesControllerTest < ActionDispatch::IntegrationTest
       assert_equal 1, json_response['companies'].length
       assert_equal company_with_deal2.id, json_response['companies'].first['id']
     end
+  end
+
+  test "should paginate companies" do
+    get api_v1_companies_url, params: { page: 1 }
+    assert_response :success
+
+    json_response = JSON.parse(response.body)
+    assert_equal 1, json_response['meta']['page']
+    assert_operator json_response['meta']['pages'], :>, 1
   end
 
   private
