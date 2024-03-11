@@ -1,23 +1,73 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from 'react'
 
-export default () => {
+import Error from './shared/Error'
+import Table from './companies/Table'
+import Pagination from './shared/Pagination'
+import FilterForm from './companies/FilterForm'
+
+import { useDebouncedEffect } from '../utils/hooks'
+
+const Home = () => {
   // List of fetched companies
-  const [companies, setCompanies] = useState([]);
+  const [companies, setCompanies] = useState([])
+
+  // Initial page load flag
+  const [isInitialMount, setIsInitialMount] = useState(true)
+
+  // Errors
+  const [error, setError] = useState(null)
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   // Table filters
-  const [companyName, setCompanyName] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [minEmployee, setMinEmployee] = useState("");
-  const [minimumDealAmount, setMinimumDealAmount] = useState("");
+  const [companyName, setCompanyName] = useState('')
+  const [industry, setIndustry] = useState('')
+  const [minEmployee, setMinEmployee] = useState('')
+  const [minimumDealAmount, setMinimumDealAmount] = useState('')
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    fetchCompanies(page)
+  }
+
+  const queryParams = new URLSearchParams({ companyName, industry, minEmployee, minimumDealAmount }).toString()
+  const companiesUrl = `/api/v1/companies?${queryParams}`
 
   // Fetch companies from API
-  useEffect(() => {
-    const url = "/api/v1/companies";
-    fetch(url)
-      .then((res) => {
-        return res.json();
+  const fetchCompanies = (page = 1) => {
+    fetch(`${companiesUrl}&page=${page}`)
+      .then((response) => {
+        if (!response.ok) {
+          setError('Network response was not ok')
+        }
+        return response.json()
       })
-      .then((res) => setCompanies(res))
+      .then((data) => {
+        if (data.companies.length === 0) {
+          setError('No companies found')
+        } else {
+          setError(null)
+        }
+        setCompanies(data.companies)
+        setTotalPages(data.meta.pages)
+        setCurrentPage(data.meta.page)
+      })
+      .catch((error) => setError(`Fetch error: ${error}`))
+  }
+
+  // Custom hook to debounce feting the companies
+  useDebouncedEffect(() => {
+    if (!isInitialMount) {
+      fetchCompanies()
+    }
+  }, [companyName, industry, minEmployee, minimumDealAmount], 500)
+
+  // First Page load
+  useEffect(() => {
+    fetchCompanies()
+    setIsInitialMount(false)
   }, [])
 
   return (
@@ -25,49 +75,27 @@ export default () => {
       <div className="jumbotron jumbotron-fluid bg-transparent">
         <div className="container secondary-color">
           <h1 className="display-4">Companies</h1>
+          <FilterForm
+            {...{
+              companyName,
+              setCompanyName,
+              industry,
+              setIndustry,
+              minEmployee,
+              setMinEmployee,
+              minimumDealAmount,
+              setMinimumDealAmount,
+            }}
+          />
+          <Table companies={companies} />
 
-          <label htmlFor="company-name">Company Name</label>
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" id="company-name" value={companyName} onChange={e => setCompanyName(e.target.value)} />
-          </div>
+          {error && <Error message={error} />}
 
-          <label htmlFor="industry">Industry</label>
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" id="industry" value={industry} onChange={e => setIndustry(e.target.value)} />
-          </div>
-
-          <label htmlFor="min-employee">Minimum Employee Count</label>
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" id="min-employee" value={minEmployee} onChange={e => setMinEmployee(e.target.value)} />
-          </div>
-
-          <label htmlFor="min-amount">Minimum Deal Amount</label>
-          <div className="input-group mb-3">
-            <input type="text" className="form-control" id="min-amount" value={minimumDealAmount} onChange={e => setMinimumDealAmount(e.target.value)} />
-          </div>
-
-          <table className="table">
-            <thead>
-              <tr>
-                <th scope="col">Name</th>
-                <th scope="col">Industry</th>
-                <th scope="col">Employee Count</th>
-                <th scope="col">Total Deal Amount</th>
-              </tr>
-            </thead>
-            <tbody>
-              {companies.map((company) => (
-                <tr key={company.id}>
-                  <td>{company.name}</td>
-                  <td>{company.industry}</td>
-                  <td>{company.employee_count}</td>
-                  <td>{company.deals.reduce((sum, deal) => sum + deal.amount, 0)}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>
     </div>
   )
-};
+}
+
+export default Home
