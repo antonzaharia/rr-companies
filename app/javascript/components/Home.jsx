@@ -1,25 +1,60 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from 'react'
+
 import Table from './companies/Table'
+import Pagination from './shared/Pagination'
+
+import { useDebouncedEffect } from '../utils/hooks'
 
 export default () => {
   // List of fetched companies
-  const [companies, setCompanies] = useState([]);
+  const [companies, setCompanies] = useState([])
+
+  // Initial page load flag
+  const [isInitialMount, setIsInitialMount] = useState(true)
+
+  // Errors
+  const [error, setError] = useState(null)
+
+  // Pagination
+  const [currentPage, setCurrentPage] = useState(1)
+  const [totalPages, setTotalPages] = useState(1)
 
   // Table filters
-  const [companyName, setCompanyName] = useState("");
-  const [industry, setIndustry] = useState("");
-  const [minEmployee, setMinEmployee] = useState("");
-  const [minimumDealAmount, setMinimumDealAmount] = useState("");
+  const [companyName, setCompanyName] = useState('')
+  const [industry, setIndustry] = useState('')
+  const [minEmployee, setMinEmployee] = useState('')
+  const [minimumDealAmount, setMinimumDealAmount] = useState('')
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page)
+    fetchCompanies(page)
+  }
+
+  const queryParams = new URLSearchParams({ companyName, industry, minEmployee, minimumDealAmount }).toString()
+  const companiesUrl = `/api/v1/companies?${queryParams}`
 
   // Fetch companies from API
-  useEffect(() => {
-    const url = "/api/v1/companies";
-    fetch(url)
-      .then((res) => {
-        return res.json();
+  const fetchCompanies = (page = 1) => {
+    fetch(`${companiesUrl}&page=${page}`)
+      .then((response) => {
+        if (!response.ok) {
+          setError('Network response was not ok')
+        }
+        return response.json()
       })
-      .then((res) => setCompanies(res.companies))
-  }, [])
+      .then((data) => {
+        if (data.companies.length === 0) {
+          setError('No companies found')
+        } else {
+          setError(null)
+        }
+        setCompanies(data.companies)
+        setTotalPages(data.meta.pages)
+        setCurrentPage(data.meta.page)
+        setIsInitialMount(false)
+      })
+      .catch((error) => setError(`Fetch error: ${error}`))
+  }
 
   return (
     <div className="vw-100 primary-color d-flex align-items-center justify-content-center">
@@ -72,8 +107,10 @@ export default () => {
           </div>
 
           <Table companies={companies} />
+
+          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
       </div>
     </div>
   )
-};
+}
