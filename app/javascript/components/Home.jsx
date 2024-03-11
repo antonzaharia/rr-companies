@@ -56,6 +56,13 @@ export default () => {
       .catch((error) => setError(`Fetch error: ${error}`))
   }
 
+  // Custom hook to debounce feting the companies
+  useDebouncedEffect(
+    () => fetchCompanies(),
+    [companyName, industry, minEmployee, minimumDealAmount],
+    isInitialMount ? 0 : 500
+  )
+
   return (
     <div className="vw-100 primary-color d-flex align-items-center justify-content-center">
       <div className="jumbotron jumbotron-fluid bg-transparent">
