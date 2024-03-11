@@ -11,12 +11,12 @@ Your primary task with this homework assignment is to resolve the user stories b
 *Estimated time to completion: 3-4 hours*
 
 ## User Stories
-- [ ] The frontend is not properly fetching data, i.e. filters aren't being sent, requests are being sent too often, non-successful response codes aren't being handled, etc.
-  - [ ] Ensured filters are sent with requests
-  - [ ] Debouncer: Control the frequency of API requests, ensuring that they're made only after a user has paused their input, reducing unnecessary server load.
-  - [ ] Added error handling for API responses, displaying user-friendly messages and preventing the application from crashing on non-successful response codes.
-- [ ] The backend is taking too long to return the expected data, i.e.  filters aren't being applied, too much data is being returned, db performance isn't optimized, etc.
-  - [ ] Pagination: To reduce load times by limiting the amount of data sent in a single request.
+- [x] The frontend is not properly fetching data, i.e. filters aren't being sent, requests are being sent too often, non-successful response codes aren't being handled, etc.
+  - [x] Ensured filters are sent with requests
+  - [x] Debouncer: Control the frequency of API requests, ensuring that they're made only after a user has paused their input, reducing unnecessary server load.
+  - [x] Added error handling for API responses, displaying user-friendly messages and preventing the application from crashing on non-successful response codes.
+- [x] The backend is taking too long to return the expected data, i.e.  filters aren't being applied, too much data is being returned, db performance isn't optimized, etc.
+  - [x] Pagination: To reduce load times by limiting the amount of data sent in a single request.
   - [x] Filterer Concern: To cleanly apply filters, improving query efficiency and code maintainability.
   - [x] Serializers: To only send necessary data, reducing bandwidth and speeding up responses.
   - [x] Database Optimization: To enhance query speed and overall application performance.
