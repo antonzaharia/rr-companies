@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
+import Error from './shared/Error'
 import Table from './companies/Table'
 import Pagination from './shared/Pagination'
 
@@ -114,6 +115,8 @@ export default () => {
           </div>
 
           <Table companies={companies} />
+
+          {error && <Error message={error} />}
 
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
         </div>
