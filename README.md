@@ -20,13 +20,13 @@ Your primary task with this homework assignment is to resolve the user stories b
   - [x] Filterer Concern: To cleanly apply filters, improving query efficiency and code maintainability.
   - [x] Serializers: To only send necessary data, reducing bandwidth and speeding up responses.
   - [x] Database Optimization: To enhance query speed and overall application performance.
-- [ ] The confidence in our current functionality and ability to deploy additional changes is extremely low.  Help us increase our confidence in an automated way.
+- [x] The confidence in our current functionality and ability to deploy additional changes is extremely low.  Help us increase our confidence in an automated way.
   - [x] Unit Tests: Cover individual components or methods, ensuring they work as expected in isolation.
   - [x] Controller Tests: Verify that the application's HTTP endpoints respond as intended, covering various scenarios including success, failure, and edge cases.
-  - [ ] System Tests: Implement systems tests to ensure different parts of the application work together as expected.
+  - [x] System Tests: Implement systems tests to ensure different parts of the application work together as expected.
 - [ ] The confidence in our security posture is also very low.  Help us increase our confidence that we are running a securely designed application.
   - [x] Strong Parameters: Use strong parameters to prevent mass-assignment vulnerabilities and ensure we explicitly permit only the required parameters for each action.
-  - [ ] Input Validation: Ensure all inputs from users are validated both in terms of type and content to prevent SQL injection and other forms of injection attacks.
+  - [x] Input Validation: Ensure all inputs from users are validated both in terms of type and content to prevent SQL injection and other forms of injection attacks.
   - [ ] Update Dependencies: Use `bundler-audit` to check for vulnerabilities.
 
 ## Assumptions
