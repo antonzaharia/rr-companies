@@ -2,12 +2,20 @@ module Filterer
   extend ActiveSupport::Concern
 
   class_methods do
+    # Using Chain of Responsibility design pattern
     def filtered(params)
       results = self.where(nil) # Creates an anonymous scope
-      results = filter_by_name(results, params)
-      results = filter_by_industry(results, params)
-      results = filter_by_min_employee_count(results, params)
-      results = filter_by_minimum_deal_amount(results, params)
+
+      filters_chain = [
+        method(:filter_by_name),
+        method(:filter_by_industry),
+        method(:filter_by_min_employee_count),
+        method(:filter_by_minimum_deal_amount)
+      ]
+
+      filters_chain.each do |filter|
+        results = filter.call(results, params)
+      end
 
       results
     end
