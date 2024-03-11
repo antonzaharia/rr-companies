@@ -51,6 +51,9 @@ gem "bootsnap", require: false
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
 
+# Serialization
+gem "active_model_serializers", "~> 0.10.14"
+
 group :test do
   gem "minitest", "~> 5.22"
   gem "capybara", "~> 3.40"
